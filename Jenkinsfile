@@ -12,24 +12,24 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh '''#!/bin/bash
-                echo 'Test Step: We run testing tool like pytest here'
+                script {
+                    // Activate the virtual environment and run pytest
+                    bat '''@echo off
+                    REM Activate the virtual environment
+                    call E:\\UIC\\RAE\\Labs\\Lab 6\\mliplab6\\mlip\\myenv\\Scripts\\activate.bat
 
-                # TODO fill out the path to conda here
-                # sudo /PATH/TO/CONDA init
+                    REM Run pytest for testing
+                    pytest
 
-                # TODO Complete the command to run pytest
-                # sudo /PATH/TO/CONDA run -n <Envinronment Name> <Command you want to run>
-
-                echo 'pytest not runned'
-                exit 1 #comment this line after implementing Jenkinsfile
-                '''
-
+                    REM Deactivate the virtual environment after running tests
+                    deactivate
+                    '''
+                }
             }
         }
         stage('Deploy') {
             steps {
-                echo 'In this step, we deploy our porject'
+                echo 'In this step, we deploy our project'
                 echo 'Depending on the context, we may publish the project artifact or upload pickle files'
             }
         }
